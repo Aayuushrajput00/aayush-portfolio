@@ -17,10 +17,10 @@ export const projectsData: ProjectItem[] = [
     id: "delm-marketing",
     number: "01",
     category: "Client",
-    name: "Delm Marketing",
+    name: "Delhi Marketing Hub",
     tagline: "Digital Marketing Agency Web Platform & High-Converting UI/UX System",
     description:
-      "A complete, full-scale digital marketing agency website designed for Delm Marketing. Features interactive services catalog, real-time ROI stats card, client testimonials, course tracks, FAQ accordions, blog feed, and contact system.",
+      "A complete digital marketing agency website designed for Delhi Marketing Hub. Features interactive services catalog, real-time ROI stats card, client testimonials, course tracks, FAQ accordions, blog feed, and contact system.",
     col1Img1:
       "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&auto=format&fit=crop&q=80",
     col1Img2:
