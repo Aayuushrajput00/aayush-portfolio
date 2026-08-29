@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { HeroSection } from "./sections/HeroSection";
 import { MarqueeSection } from "./sections/MarqueeSection";
 import { AboutSection } from "./sections/AboutSection";
@@ -8,10 +8,26 @@ import { Footer } from "./components/Footer";
 import { ContactModal } from "./components/ContactModal";
 import { ProjectModal } from "./components/ProjectModal";
 import { ProjectItem } from "./data/projectsData";
+import { DelmMarketing } from "./projects/DelmMarketing";
 
 export function App() {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+  const [activeDemo, setActiveDemo] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === "#delm-marketing") {
+        setActiveDemo("delm-marketing");
+      } else if (window.location.hash === "") {
+        setActiveDemo(null);
+      }
+    };
+
+    handleHashChange();
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
 
   const handleNavigate = (sectionId: string) => {
     const el = document.getElementById(sectionId);
@@ -19,6 +35,25 @@ export function App() {
       el.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  const handleOpenDemo = (projectId: string) => {
+    if (projectId === "delm-marketing") {
+      window.location.hash = "#delm-marketing";
+      setActiveDemo("delm-marketing");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const handleBackToPortfolio = () => {
+    window.location.hash = "";
+    setActiveDemo(null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // If Delm Marketing interactive demo is active
+  if (activeDemo === "delm-marketing") {
+    return <DelmMarketing onBack={handleBackToPortfolio} />;
+  }
 
   return (
     <div
@@ -42,7 +77,13 @@ export function App() {
 
       {/* 5. PROJECTS SECTION */}
       <ProjectsSection
-        onSelectProject={(project) => setSelectedProject(project)}
+        onSelectProject={(project) => {
+          if (project.id === "delm-marketing") {
+            setSelectedProject(project);
+          } else {
+            setSelectedProject(project);
+          }
+        }}
       />
 
       {/* FOOTER */}
@@ -59,6 +100,7 @@ export function App() {
         project={selectedProject}
         isOpen={!!selectedProject}
         onClose={() => setSelectedProject(null)}
+        onLaunchDemo={handleOpenDemo}
       />
     </div>
   );

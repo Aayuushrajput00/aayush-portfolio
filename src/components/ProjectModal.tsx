@@ -1,19 +1,20 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { X, ExternalLink, ArrowUpRight, Globe } from "lucide-react";
 import { ProjectItem } from "../data/projectsData";
-import { LiveProjectButton } from "./LiveProjectButton";
 
 interface ProjectModalProps {
   project: ProjectItem | null;
   isOpen: boolean;
   onClose: () => void;
+  onLaunchDemo?: (projectId: string) => void;
 }
 
 export const ProjectModal: React.FC<ProjectModalProps> = ({
   project,
   isOpen,
   onClose,
+  onLaunchDemo,
 }) => {
   if (!project) return null;
 
@@ -69,6 +70,32 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                 {project.description}
               </p>
 
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                {project.id === "delm-marketing" && onLaunchDemo && (
+                  <button
+                    onClick={() => {
+                      onClose();
+                      onLaunchDemo(project.id);
+                    }}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[#B600A8] via-[#7621B0] to-[#E63956] text-white font-kanit font-medium text-sm uppercase tracking-wider shadow-lg hover:shadow-xl transition-all cursor-pointer active:scale-95"
+                  >
+                    <Globe className="w-4 h-4" /> Open Full Interactive Website
+                  </button>
+                )}
+
+                {project.figmaUrl && (
+                  <a
+                    href={project.figmaUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-white/20 bg-white/5 hover:bg-white/10 text-white font-kanit font-medium text-sm uppercase tracking-wider transition-colors cursor-pointer"
+                  >
+                    <ExternalLink className="w-4 h-4 text-[#B600A8]" /> Figma Prototype
+                  </a>
+                )}
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
                 <div className="space-y-4">
                   <img
@@ -93,12 +120,15 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
 
               <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p className="text-xs text-[#D7E2EA]/50 uppercase tracking-widest">
-                  Featured 3D Case Study - Designed by Aayush Thakur
+                  Featured Case Study - Designed by Aayush Thakur
                 </p>
-                <LiveProjectButton
+                <button
+                  type="button"
                   onClick={onClose}
-                  label="Close Preview"
-                />
+                  className="px-8 py-3 rounded-full border border-white/20 text-white font-kanit uppercase tracking-wider text-sm hover:bg-white/10 transition-colors"
+                >
+                  Close Preview
+                </button>
               </div>
             </div>
           </motion.div>
