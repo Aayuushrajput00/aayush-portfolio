@@ -14,7 +14,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 }) => {
   const navLinks = [
     { label: "About", id: "about" },
-    { label: "Price", id: "services" },
+    { label: "Price", id: "price" },
     { label: "Projects", id: "projects" },
     { label: "Contact", id: "contact" },
   ];
